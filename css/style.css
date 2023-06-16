@@ -1,0 +1,126 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* utils */
+.text_center {
+  text-align: center;
+}
+
+.text_orange {
+  color: #ffa500;
+}
+.bg_orange {
+  background: #fe6f60;
+}
+.text_white {
+  color: #fff;
+}
+.bg_white {
+  background-color: #fff;
+}
+
+.text_blue{
+  color: #49acac;
+}
+
+.bg_blue {
+  background-color: #49acac;
+}
+
+.container {
+  padding: 0 10%;
+}
+
+.py_20 {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+/* end utils */
+
+body {
+  font-family: 'Nunito', sans-serif;
+}
+
+header {
+  padding: 1em;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+}
+
+.nav_items a {
+  padding-left: 20px;
+}
+
+/* home page */
+/* section sucrés */
+.card_container {
+  max-width: 20%;
+  border: 1px solid #ececee;
+}
+
+.card_container img {
+  width: 100%;
+}
+
+.card_body {
+  padding: 15px;
+}
+
+.section_card {
+  display: flex;
+  /* justify-content: space-between; */
+}
+
+
+/* ajouter plats */
+.block {
+  display: block;
+}
+
+.btn {
+  background-color: #496aac;
+  color: #fff;
+  width: 30%;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 20px;
+  border: none;
+  font-size: 1.2rem;
+}
+
+input, textarea, select {
+  width: 30%;
+  padding: 7px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  border: 1px solid #bebebe;
+}
+
+
+.text_error {
+  color: red;
+}
+
+.text_success {
+  color: rgb(0, 91, 0);
+  background-color: rgb(97, 255, 97);
+  padding: 20px;
+  margin-top: 30px;
+}
