@@ -1,21 +1,14 @@
-<!-- header -->
+<!-- étapes -->
+<!-- 
+1- Recupère header
+2- Fichier connexion a BDD
+3- Requete pour recuperer datas sucrées
+ -->
 <?php
 include('partials/_header.php');
-include('utils/data_sucre.php');
 include('utils/pdo.php');
-// Recuperer datas de ma BDD
-/////////////////////////////
-// 1- Query to get all plats
-$sql = "SELECT * FROM sucre ORDER BY title";
-// 2- Preformater la query
-$query = $pdo->prepare($sql);
-// 3- Execute la query
-$query->execute();
-// 4- Stock ma data dans variable
-$platsSucres = $query->fetchAll();
-// echo "<pre>";
-// print_r($platsSucres);
-// echo "</pre>";
+require('sql/plats_sucre.php'); // connexion BDD
+
 ?>
 <h1 class="text_center uppercase">Nos Plats sucrées</h1>
 
@@ -24,9 +17,7 @@ $platsSucres = $query->fetchAll();
   foreach ($platsSucres as $plat) {
     include('partials/_card.php');
   }
-
   ?>
 </div>
-
 <!-- footer -->
 <?php include('partials/_footer.php') ?>

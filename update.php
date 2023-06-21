@@ -2,9 +2,10 @@
 <!-- 
 1- Recupère header
 2- Fichier connexion a BDD
-3- Lorsque user appuie sur envoyer
+3- Recupere id du plat
+4- Lorsque user appuie sur envoyer
   - Validation des inputs
-  - No error message => enregistrement dans BDD
+  - No error message => modification dans BDD
 
  -->
 <?php
@@ -15,13 +16,20 @@ $error = [];
 $errorMsg = "*Ce champs est obligatoire";
 $success = false;
 
+// 1- Je recupere le plat avec l'id de l'url
+//////////////////////////////////////////
+//1-verifie id existant et que c'est un int
+require_once('sql/get_id.php');
+
+// 2- J'insere les modification en BDD
+///////////////////////////////////
 // 1-je verifie que le btn submit fonctionne
 if (!empty($_POST['submited'])) {
-
   // 2- je stock les data du user dans des variables + protection xss
   $title = trim(htmlspecialchars($_POST['title']));
   $content = trim(htmlspecialchars($_POST['content']));
   $category = trim(htmlspecialchars($_POST['category']));
+  // print_r($image);
 
   // 3- Validation des imput
   // validation title
@@ -42,7 +50,7 @@ if (!empty($_POST['submited'])) {
     // si les caracteres sont < 4 =>message error
     if (strlen($content) < 4) {
       $error['content'] = "*25 caractères minimum";
-    } elseif (strlen($content) > 500) {
+    } elseif (strlen($content) > 700) {
       $error['content'] = "*500 caractères maximum";
     }
   } else {
@@ -70,10 +78,6 @@ if (!empty($_POST['submited'])) {
 
       // 2- verifie que l'extension du fichier est bien dans le tableau des extensions autorisées
       if (in_array($extension, $allowed_extension)) {
-        // verifie qe le dossier upload existe sinon je le crée
-        // if (!file_exists('image_uplaod')) {
-        //   mkdir('image_upload');
-        // }
         // on renomme le fichier uploader par le user 
         $new_img_name = uniqid('IMG-', true) . "." . $extension;
         // dossier ou le fichier doit être mis
@@ -94,20 +98,18 @@ if (!empty($_POST['submited'])) {
 
 
   // 4-Tout est ok
-  // print_r(count($error));
   if (count($error) == 0) {
     // si tout est ok je passe success à true
-
     $success = true;
     // Insertion en BDD
     // 1-query
-    require_once('sql/add_plat.php');
+    require_once('sql/update_plat.php');
   }
 }
 
 ?>
 
-<h1 class="text_center uppercase">Ajouter un plat</h1>
+<h1 class="text_center uppercase">Modifier un plat</h1>
 <?php
 if ($success == false) { ?>
   <div class="container_form">
@@ -115,10 +117,7 @@ if ($success == false) { ?>
       <!-- title -->
       <div class="container_input">
         <label for="">Titre du plat</label>
-        <input type="text" name="title" class="block" value="<?php
-                                                              if (isset($_POST['title'])) {
-                                                                echo $_POST['title'];
-                                                              } ?>">
+        <input type="text" name="title" class="block" value="<?= $plat['title'] ?>">
         <p class="text_error">
           <?php
           if (isset($error['title'])) {
@@ -129,9 +128,7 @@ if ($success == false) { ?>
       <!-- content -->
       <div class="container_input">
         <label for="">Description du plat</label>
-        <textarea name="content" class="block" rows="12"><?php if (isset($_POST['content'])) {
-                                                            echo $_POST['content'];
-                                                          } ?></textarea>
+        <textarea name="content" class="block" rows="12"><?= $plat['content'] ?></textarea>
         <p class="text_error">
           <?php
           if (isset($error['content'])) {
@@ -144,8 +141,8 @@ if ($success == false) { ?>
         <label for="">Categorie</label>
         <select name="category" class="block">
           <option value="">Choisir catégorie</option>
-          <option value="sucre">Sucré</option>
-          <option value="sale">Salé</option>
+          <option value="sucre" <?php if ($plat["category"] == "sucre") echo 'selected="selected"' ?>>Sucré</option>
+          <option value="sale" <?php if ($plat["category"] == "sale") echo 'selected="selected"' ?>>Salé</option>
         </select>
 
       </div>
@@ -159,14 +156,13 @@ if ($success == false) { ?>
             echo $error['url_img'];
           } ?>
         </p>
-
       </div>
       <!-- button submit -->
-      <input class="btn" type="submit" value="Envoyer" name="submited">
+      <input class="update" type="submit" value="Modifier" name="submited">
     </form>
   </div>
 <?php } else {
-  echo "<p class='text_success'>Votre message a bien été envoyé</p>";
+  echo "<p class='text_success'>Votre message a bien été modifié</p>";
 }
 ?>
 

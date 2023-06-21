@@ -1,6 +1,8 @@
 <!-- header -->
 <?php
 include('partials/_header.php');
+require_once('utils/pdo.php');
+
 ?>
 <h1 class="text_center uppercase">Bienvenue sur La Graillance</h1>
 <!-- recettes sucrés -->
